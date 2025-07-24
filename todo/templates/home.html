@@ -1,0 +1,37 @@
+<html>
+<head>
+    <title>My TO_DO_LIST</title>
+</head>
+<body>
+    <h1>My TO_DO_LIST</h1>
+    
+    <!-- Add new task -->
+    <form method="post" action="{% url 'add_todo' %}">
+        {% csrf_token %}
+        <input type="text" name="task" placeholder="Enter task">
+        <button type="submit">Add</button>
+    </form>
+    
+    <br><br>
+    
+    <!-- Show all tasks -->
+    {% for todo in todos %}
+        <p>
+            {{ todo.task }}
+            
+            {% if not todo.completed %}
+                - <a href="{% url 'complete_todo' todo.id %}">Complete</a>
+            {% else %}
+                - DONE
+            {% endif %}
+            
+            - <a href="{% url 'delete_todo' todo.id %}">Delete</a>
+        </p>
+    {% endfor %}
+    
+    {% if not todos %}
+        <p>No tasks yet!</p>
+    {% endif %}
+    
+</body>
+</html>
